@@ -7,9 +7,9 @@ MIDI Keyboard based on Raspberry Pi Pico
 
 1 encoder:
 
-  clocwise/anticlockwise rotation = changing register 1 semitone up/down
+- clocwise/anticlockwise rotation = changing register 1 semitone up/down
   
-  push = reset to default register
+- push = reset to default register
 
 scheme:
 https://wokwi.com/projects/382383608740428801
