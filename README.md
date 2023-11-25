@@ -6,7 +6,9 @@ MIDI Keyboard based on Raspberry Pi Pico
 2 buttons for changing register 1 octave up or down
 
 1 encoder:
+
   clocwise/anticlockwise rotation = changing register 1 semitone up/down
+  
   push = reset to default register
 
 scheme:
