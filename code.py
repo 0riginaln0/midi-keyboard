@@ -10,7 +10,7 @@ from adafruit_midi.note_off     import NoteOff
 midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], out_channel=0)
 
 #  button pins, all pins in order skipping GP15
-note_pins = [board.GP0, board.GP16]
+note_pins = [board.GP16, board.GP17, board.GP18, board.GP19, board.GP0]
 
 note_buttons = []
 
@@ -24,8 +24,11 @@ for pin in note_pins:
 #  note states
 note0_pressed = False
 note1_pressed = False
+note2_pressed = False
+note3_pressed = False
+note4_pressed = False
 #  array of note states
-note_states = [note0_pressed, note1_pressed]
+note_states = [note0_pressed, note1_pressed, note2_pressed, note3_pressed, note4_pressed]
 #  default midi number
 midi_num = 60
 #  default MIDI button
@@ -33,7 +36,7 @@ button_num = 0
 #  default MIDI button position
 button_pos = 0
 #  array of default MIDI notes
-midi_notes = [60, 65]
+midi_notes = [50, 51, 52, 53, 55]
 
 counter = 0
 while True:
