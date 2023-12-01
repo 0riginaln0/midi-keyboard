@@ -107,9 +107,10 @@ def change_register(val: int):
         #print(val)
         current_midi_num += val
         for i in range(len(new_notes)):
+            midi.send(NoteOff(midi_notes[i], 120))
+            note_states[i] = False      
             midi_notes[i] = new_notes[i] + val
-        #print(current_midi_num)
-    print_midi_notes()
+    #print_midi_notes()
 
 
 def reset_midi_note():
