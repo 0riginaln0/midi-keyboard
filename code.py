@@ -52,7 +52,7 @@ for pin in note_pins:
 
 def midi_input():
     #  MIDI input
-    for i in range(len(note_pins)):
+    for i in range(len(midi_notes)):
         buttons = note_buttons[i]
         #  if button is pressed...
         if not buttons.value and note_states[i] is False:
@@ -60,12 +60,15 @@ def midi_input():
             midi.send(NoteOn(midi_notes[i], 120))
             note_states[i] = True
             print("Button pressed")
+            print_midi_notes()
         #  if the button is released...
         if buttons.value and note_states[i] is True:
             #  stop sending the MIDI note and turn off the LED
             midi.send(NoteOff(midi_notes[i], 120))
             note_states[i] = False
             print("Button released")
+            print_midi_notes()
+            
 
 def change_register_with_rotation():
     global encoder_last_position
@@ -86,12 +89,13 @@ def change_register_with_rotation():
 
 def change_register(val: int):
     global current_midi_num
+    new_notes = midi_notes
     
     if (current_midi_num + val > 27) and (current_midi_num + val < 89):
         print(val)
         current_midi_num += val
-        for note in midi_notes:
-            note += val
+        for i in range(len(new_notes)):
+            midi_notes[i] = new_notes[i] + val
         print(current_midi_num)
         
 def reset_midi_note():
@@ -104,14 +108,18 @@ def reset_midi_note():
     is_released = encoder_button.value
     if encoder_button_state == WAS_PRESSED and is_released:
         counter = 0
-        for note in midi_notes:
-            note = (midi_num + counter)
+        for i in range(len(midi_notes)):
+            midi_notes[i] = (midi_num + counter)
             counter += 1
         current_midi_num = midi_num
         encoder_button_state = None
+
+def print_midi_notes():
+    print(midi_notes)
 
 while True:
     midi_input()
     change_register_with_rotation()
     reset_midi_note()
             
+
