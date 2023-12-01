@@ -12,3 +12,6 @@ MIDI Keyboard based on Raspberry Pi Pico
 - push = reset to default register
 
 scheme: https://wokwi.com/projects/382383608740428801
+
+todo:
+  adjust upper and lower bounds for notes
