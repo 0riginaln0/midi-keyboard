@@ -48,7 +48,7 @@ note_pins = [board.GP16, board.GP17, board.GP18, board.GP19, board.GP20, board.G
 note_buttons = []
 note_states = []
 #  default midi number
-midi_num = 40
+midi_num = 60
 current_midi_num = midi_num
 #  array of default MIDI notes
 midi_notes = []
@@ -103,12 +103,13 @@ def change_register(val: int):
     global current_midi_num
     new_notes = midi_notes
     
-    if (current_midi_num + val > 27) and (current_midi_num + val + len(midi_notes) - 1 < 89):
+    if (current_midi_num + val >= 21) and (current_midi_num + val + len(midi_notes) - 1 <= 127):
         #print(val)
         current_midi_num += val
         for i in range(len(new_notes)):
             midi_notes[i] = new_notes[i] + val
         #print(current_midi_num)
+    print_midi_notes()
 
 
 def reset_midi_note():
