@@ -103,7 +103,7 @@ def change_register(val: int):
     global current_midi_num
     new_notes = midi_notes
     
-    if (current_midi_num + val >= 21) and (current_midi_num + val + len(midi_notes) - 1 <= 127):
+    if (current_midi_num + val >= 21) and (current_midi_num + val + len(midi_notes) - 1 <= 93):
         #print(val)
         current_midi_num += val
         for i in range(len(new_notes)):
