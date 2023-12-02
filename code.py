@@ -63,6 +63,8 @@ for pin in note_pins:
 
 
 def midi_input():
+    global current_midi_num
+    
     #  MIDI input
     for i in range(len(midi_notes)):
         buttons = note_buttons[i]
@@ -71,6 +73,8 @@ def midi_input():
             #  send the MIDI note and light up the LED
             midi.send(NoteOn(midi_notes[i], 120))
             note_states[i] = True
+            print(midi_notes[i])
+            print(current_midi_num)
             #print("Button pressed")
             #print_midi_notes()
         #  if the button is released...
