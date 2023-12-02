@@ -41,7 +41,7 @@ octave_down_button.pull = digitalio.Pull.UP
 #  MIDI setup as MIDI out device
 midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], out_channel=0)
 
-#  button pins, all pins in order skipping GP15
+#  button pins, all buttons in order
 note_pins = [board.GP16, board.GP17, board.GP18, board.GP19, board.GP20, board.GP21,
              board.GP22, board.GP26, board.GP27, board.GP28, board.GP2, board.GP1, board.GP0]
 
