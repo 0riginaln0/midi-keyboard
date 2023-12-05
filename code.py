@@ -7,6 +7,102 @@ import rotaryio
 from adafruit_midi.note_on      import NoteOn
 from adafruit_midi.note_off     import NoteOff
 
+import busio
+import lcd
+import i2c_pcf8574_interface
+from lcd import LCD, CursorMode
+from i2c_pcf8574_interface import I2CPCF8574Interface
+
+
+
+i2c = busio.I2C(scl=board.GP9, sda=board.GP8)
+address = 0x27
+
+
+i2c = i2c_pcf8574_interface.I2CPCF8574Interface(i2c, address)
+lcd = lcd.LCD(i2c, num_rows=2, num_cols=16)
+
+lcd.set_display_enabled(True)
+lcd.print('kolobok povesilsya')
+
+notes_dc = {
+    93: 'A6',
+    92: 'G#6/Ab6',
+    91: 'G6',
+    90: 'F#6/Gb6',
+    89: 'F6',
+    88: 'E6',
+    87: 'D#6/Eb6',
+    86: 'D6',
+    85: 'C#6/Db6',
+    84: 'C6',
+    83: 'B5',
+    82: 'A#5/Bb5',
+    81: 'A5',
+    80: 'G#5/Ab5',
+    79: 'G5',
+    78: 'F#5/Gb5',
+    77: 'F5',
+    76: 'E5',
+    75: 'D#5/Eb5',
+    74: 'D5',
+    73: 'C#5/Db5',
+    72: 'C5',
+    71: 'B4',
+    70: 'A#4/Bb4',
+    69: 'A4',
+    68: 'G#4/Ab4',
+    67: 'G4',
+    66: 'F#4/Gb4',
+    65: 'F4',
+    64: 'E4',
+    63: 'D#4/Eb4',
+    62: 'D4',
+    61: 'C#4/Db4',
+    60: 'C4',
+    59: 'B3',
+    58: 'A#3/Bb3',
+    57: 'A3',
+    56: 'G#3/Ab3',
+    55: 'G3',
+    54: 'F#3/Gb3',
+    53: 'F3',
+    52: 'E3',
+    51: 'D#3/Eb3',
+    50: 'D3',
+    49: 'C#3/Db3',
+    48: 'C3',
+    47: 'B2',
+    46: 'A#2/Bb2',
+    45: 'A2',
+    44: 'G#2/Ab2',
+    43: 'G2',
+    42: 'F#2/Gb2',
+    41: 'F2',
+    40: 'E2',
+    39: 'D#2/Eb2',
+    38: 'D2',
+    37: 'C#2/Db2',
+    36: 'C2',
+    35: 'B1',
+    34: 'A#1/Bb1',
+    33: 'A1',
+    32: 'G#1/Ab1',
+    31: 'G1',
+    30: 'F#1/Gb1',
+    29: 'F1',
+    28: 'E1',
+    27: 'D#1/Eb1',
+    26: 'D1',
+    25: 'C#1/Db1',
+    24: 'C1',
+    23: 'B0',
+    22: 'A#0/Bb0',
+    21: 'A0',
+}
+
+
+
 
 # Encoder rotation
 encoder_dt = board.GP14
@@ -41,7 +137,7 @@ octave_down_button.pull = digitalio.Pull.UP
 #  MIDI setup as MIDI out device
 midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], out_channel=0)
 
-#  button pins, all pins in order skipping GP15
+#  button pins, all buttons in order
 note_pins = [board.GP16, board.GP17, board.GP18, board.GP19, board.GP20, board.GP21,
              board.GP22, board.GP26, board.GP27, board.GP28, board.GP2, board.GP1, board.GP0]
 
@@ -64,7 +160,6 @@ for pin in note_pins:
 
 def midi_input():
     global current_midi_num
-    
     #  MIDI input
     for i in range(len(midi_notes)):
         buttons = note_buttons[i]
@@ -75,6 +170,10 @@ def midi_input():
             note_states[i] = True
             print(midi_notes[i])
             print(current_midi_num)
+            lcd.clear()
+            str1 = str(notes_dc[midi_notes[0]]) + ' ' + str(notes_dc[midi_notes[12]])
+            str2 = str(notes_dc[midi_notes[i]])
+            lcd.print(str1 + ' ' * (16-len(str1)) + str2 + ' ' * (16 - len(str2)))
             #print("Button pressed")
             #print_midi_notes()
         #  if the button is released...
@@ -112,9 +211,12 @@ def change_register(val: int):
         current_midi_num += val
         for i in range(len(new_notes)):
             midi.send(NoteOff(midi_notes[i], 120))
-            note_states[i] = False      
+            note_states[i] = False
             midi_notes[i] = new_notes[i] + val
     #print_midi_notes()
+    lcd.clear()
+    str1 = str(notes_dc[midi_notes[0]]) +' ' + str(notes_dc[midi_notes[12]])
+    lcd.print(str1 + ' ' * (16-len(str1)))
 
 
 def reset_midi_note():
@@ -158,6 +260,7 @@ def octave_down():
         change_register(-12)
         octave_down_button_state = None
 
+
 while True:
     midi_input()
     change_register_with_rotation()
@@ -166,4 +269,3 @@ while True:
     octave_down()
     
             
-
