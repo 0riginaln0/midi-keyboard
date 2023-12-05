@@ -12,3 +12,6 @@ MIDI Keyboard based on Raspberry Pi Pico
 - push = reset to default register
 
 scheme: https://wokwi.com/projects/382935883407822849
+
+TODO:
+  erase latency for chords. (Unablings showing current note?)
