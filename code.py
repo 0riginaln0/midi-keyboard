@@ -205,8 +205,7 @@ def change_register(val: int):
             note_states[i] = False
             midi_notes[i] = new_notes[i] + val
     lcd.clear()
-    str1 = str(notes_dc[midi_notes[0]]) + " " + str(notes_dc[midi_notes[12]])
-    lcd.print(str1 + " " * (16 - len(str1)))
+    lcd.print(str(notes_dc[midi_notes[0]]) + " " + str(notes_dc[midi_notes[12]]))
 
 
 def reset_midi_note():
@@ -257,8 +256,7 @@ try:
     lcd.print("Welcome!")
     time.sleep(1)
     lcd.clear()
-    str1 = str(notes_dc[midi_notes[0]]) + " " + str(notes_dc[midi_notes[12]])
-    lcd.print(str1 + " " * (16 - len(str1)))
+    lcd.print(str(notes_dc[midi_notes[0]]) + " " + str(notes_dc[midi_notes[12]]))
 
     while True:
         midi_input()
