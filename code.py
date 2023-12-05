@@ -23,7 +23,6 @@ i2c = i2c_pcf8574_interface.I2CPCF8574Interface(i2c, address)
 lcd = lcd.LCD(i2c, num_rows=2, num_cols=16)
 
 lcd.set_display_enabled(True)
-lcd.print('kolobok povesilsya')
 
 notes_dc = {
     93: 'A6',
@@ -260,12 +259,17 @@ def octave_down():
         change_register(-12)
         octave_down_button_state = None
 
-
-while True:
-    midi_input()
-    change_register_with_rotation()
-    reset_midi_note()
-    octave_up()
-    octave_down()
+try:
+    lcd.print("Welcome!")
     
-            
+    while True:
+        midi_input()
+        change_register_with_rotation()
+        reset_midi_note()
+        octave_up()
+        octave_down()
+    
+finally:
+    lcd.set_backlight(False)
+    lcd.set_display_enabled(False)
+    lcd.close()
