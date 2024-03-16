@@ -21,6 +21,40 @@ lcd = lcd.LCD(i2c, num_rows=2, num_cols=16)
 lcd.set_display_enabled(True)
 
 notes_dc = {
+    127: "G9",
+    126: "F#9/Gb9",
+    125: "F9",
+    124: "E9",
+    123: "D#9/Eb9",
+    122: "D9",
+    121: "C#9/Db9",
+    120: "C9",
+    119: "B8",
+    118: "A#8/Bb8",
+    117: "A8",
+    116: "G#8/Ab8",
+    115: "G8",
+    114: "F#8/Gb8",
+    113: "F8",
+    112: "E8",
+    111: "D#8/Eb8",
+    110: "D8",
+    109: "C#8/Db8",
+    108: "C8",
+    107: "B7",
+    106: "A#7/Bb7",
+    105: "A7",
+    104: "G#7/Ab7",
+    103: "G7",
+    101: "F#7/Gb7",
+    102: "F7",
+    100: "E7",
+    99: "D#7/Eb7",
+    98: "D7",
+    97: "C#7/Db7",
+    96: "C7",
+    95: "B6",
+    94: "A#6/Bb6",
     93: "A6",
     92: "G#6/Ab6",
     91: "G6",
@@ -95,7 +129,8 @@ notes_dc = {
     22: "A#0/Bb0",
     21: "A0",
 }
-
+UPPER_BOUND = 108 # 108: "C8"
+LOWER_BOUND = 21  # 21: "A0",
 
 # Encoder rotation
 encoder_dt = board.GP14
@@ -196,9 +231,8 @@ def change_register(val: int):
     global current_midi_num
     new_notes = midi_notes
 
-    if (current_midi_num + val >= 21) and (
-        current_midi_num + val + len(midi_notes) - 1 <= 93
-    ):
+    if (current_midi_num + val >= LOWER_BOUND) and \
+        (current_midi_num + val + len(midi_notes) - 1 <= UPPER_BOUND):
         current_midi_num += val
         for i in range(len(new_notes)):
             midi.send(NoteOff(midi_notes[i], 120))
